@@ -1,25 +1,77 @@
-import 'package:flutter/cupertino.dart';
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_14/Viewes/Badges/home_bage.dart';
 import 'package:flutter_application_14/Viewes/Badges/nav_bar.dart';
-import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MainApp());
+import 'auth/pages/auth_page.dart';
+
+import 'auth/pages/landing_page.dart';
+import 'auth/services/auth.dart';
+
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  runApp(const MyApp());
 }
 
-class MainApp extends StatefulWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-  @override
-  State<MainApp> createState() => _MainAppState();
-}
-
-class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(body: NavBar()),
+    return Provider<AuthBase>(
+      create: (_) =>Auth() ,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: LandingPage.routeName,
+        routes: {
+          AuthPage.routeName: (context) => AuthPage(),
+          HomeBage.routeName: (context) => HomeBage(),
+          LandingPage.routeName: (context) => LandingPage(),
+          NavBar.routeName: (context) => NavBar(),
+        },
+        theme: ThemeData(
+          scaffoldBackgroundColor: Color(0xffE5E5E5),
+          primaryColor: Colors.red,
+          inputDecorationTheme: InputDecorationTheme(
+            labelStyle: Theme.of(context).textTheme.titleMedium,
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(2),
+              borderSide: BorderSide(
+                color: Colors.grey,
+              ),
+            ),
+            disabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(2),
+              borderSide: BorderSide(
+                color: Colors.grey,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(2),
+              borderSide: BorderSide(
+                color: Colors.grey,
+              ),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(2),
+              borderSide: BorderSide(
+                color: Colors.red,
+              ),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(2),
+              borderSide: BorderSide(
+                color: Colors.red,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

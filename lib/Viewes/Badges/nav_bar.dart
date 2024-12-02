@@ -4,6 +4,7 @@ import 'package:flutter_application_14/Viewes/Badges/home_bage.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 class NavBar extends StatefulWidget {
+  static const String  routeName='navBar';
   const NavBar({super.key});
 
   @override
@@ -44,8 +45,8 @@ class _NavBarState extends State<NavBar> {
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.favorite_border),
-        title: ("Favorites"),
+        icon: const Icon(Icons.try_sms_star_outlined),
+        title: ("Try on"),
         activeColorPrimary: CupertinoColors.activeBlue,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
