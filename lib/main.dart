@@ -59,7 +59,8 @@
 // }
 
 import 'package:flutter/material.dart';
-import 'features/home_bage.dart';
+import 'package:flutter_application_14/features/product_details/product_details.dart' show ProductDetails;
+import 'features/home_screen/home_bage.dart';
 import 'features/my_bag_screen.dart';
 import 'features/nav_bar.dart';
 import 'features/womens_tops_screen.dart';
@@ -80,9 +81,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: SignUpScreen.routeName,
       routes: {
+
         SignUpScreen.routeName: (context) => const SignUpScreen(),
         HomeBage.routeName: (context) => const HomeBage(),
         NavBar.routeName: (context) => const NavBar(),
+         ProductDetails.routeName: (context) => const ProductDetails(),
+
         ProfilePage.routeName: (context) => const ProfilePage(),
         CancelledOrderScreen.routeName: (context) =>
         const CancelledOrderScreen(),

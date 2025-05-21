@@ -1,73 +1,74 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_14/core/models/products.dart';
-
-import '../../features/product_details/product_details.dart';
+import 'package:flutter_application_14/core/Utilities/images.dart' show Appassets;
 
 class ListItemHome extends StatelessWidget {
-  final Products products;
+  final void Function()? onPressed;
+
   const ListItemHome({
     super.key,
-    required this.products,
+    required this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 280,
-      child: InkWell(
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProductDetails(),
-          ),
-        ),
-        child: DecoratedBox(
-          decoration: const BoxDecoration(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  ClipRRect(
+      child: Material( // ✅ ضروري لتفعيل InkWell
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(12.0), // اختياري، لتأثير الضغط
+          child: DecoratedBox(
+            decoration: const BoxDecoration(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(
+                  children: [
+                    ClipRRect(
                       borderRadius: BorderRadius.circular(12.0),
                       child: Image.network(
-                        products.imageUrl,
+                        Appassets.tempProductImage1,
                         height: 150,
                         width: 120,
                         fit: BoxFit.cover,
-                      )),
-                  SizedBox(
-                      width: 45,
-                      height: 35,
-                      child: DecoratedBox(
+                      ),
+                    ),
+                    Positioned( // ✅ تحسين مكان الخصم
+                      top: 8,
+                      left: 8,
+                      child: Container(
+                        width: 45,
+                        height: 35,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16.0),
-                            color: Colors.red),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child: Text(
-                              '${products.discount}%',
-                              style: const TextStyle(color: Colors.white),
-                            ),
+                          borderRadius: BorderRadius.circular(16.0),
+                          color: Colors.red,
+                        ),
+                        child: const Center(
+                          child: Text(
+                            '5%',
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
-                      )),
-                ],
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                products.category,
-                style: TextStyle(color: Colors.grey),
-              ),
-              Text(
-                products.title,
-                style: TextStyle(color: Colors.black),
-              ),
-              Text('${products.price}\$', style: TextStyle(color: Colors.black))
-            ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5),
+                const Text(
+                  'clothes',
+                  style: TextStyle(color: Colors.grey),
+                ),
+                const Text(
+                  "Dress",
+                  style: TextStyle(color: Colors.black),
+                ),
+                const Text(
+                  '12\$',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ],
+            ),
           ),
         ),
       ),

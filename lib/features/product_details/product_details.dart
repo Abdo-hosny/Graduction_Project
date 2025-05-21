@@ -6,6 +6,7 @@ import '../../core/widgets/select_sector.dart';
 import '../cart_screen/cart.dart';
 
 class ProductDetails extends StatefulWidget {
+  static const String routeName = "ProductDetails";
   const ProductDetails({super.key});
 
   @override
