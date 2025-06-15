@@ -1,150 +1,157 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:flutter_application_14/features/home_screen/home_bage.dart';
+import '../../../APi/manger/api_anager.dart';
+import '../../../core/widgets/custom_text_form_field.dart';
+import '../../../core/widgets/material_button.dart';
 import '../../nav_bar.dart';
+import '../logic/SignUpResponse.dart';
+import '../logic/email.dart';
 import 'login_Screen.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   static const String routeName = 'signUpScreen';
+
   const SignUpScreen({super.key});
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  void _submitForm() {
+    final firstName = _firstNameController.text.trim();
+    final lastName = _lastNameController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (firstName.isEmpty||lastName.isEmpty || email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please fill all fields"),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    final user = RequestSignUpModel(
+      lastName: lastName,
+      firstName: firstName,
+      email: email,
+      password: password,
+    );
+
+    print("Request body: ${user.toJson()}");
+
+    signUpUser(user).then((response) {
+      // مثال: لو عندك response.message أو أي شرط بسيط
+      if (response.message == 'Account registration successful!') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Success"),
+            backgroundColor: Colors.blue,
+            duration: Duration(seconds: 1),
+          ),
+        );
+
+        Future.delayed(const Duration(seconds: 1), () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const NavBar()),
+          );
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(response.message),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }).catchError((error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Error: $error"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFFDFDFDFF),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Sign up',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 40),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'Name',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  //suffixIcon: Icon(Icons.check, color: Colors.green),
-                ),
-              ),
-              const SizedBox(height: 20),
-              
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Already have an account?',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()),
-                      );
-                    },
-                    child: const Text('Log in',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 18,
-                        )),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () async {
-                    final prefs = await SharedPreferences.getInstance();
-                    await prefs.setBool('isSignedUp', true);
-
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const NavBar()),
-                    );
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Sign up',
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 40),
+            TextFormFieldWidget(
+              hintText: 'Enter your Name',
+              title: 'Name',
+              controller: _firstNameController,
+              myValidator: (text) => null,
+            ),
+            const SizedBox(height: 20),
+            TextFormFieldWidget(
+              hintText: 'Enter your Name',
+              title: 'Name',
+              controller: _lastNameController,
+              myValidator: (text) => null,
+            ),
+            const SizedBox(height: 20),
+            TextFormFieldWidget(
+              hintText: 'Enter your Email',
+              title: 'Email',
+              controller: _emailController,
+              myValidator: (text) => null,
+            ),
+            const SizedBox(height: 20),
+            TextFormFieldWidget(
+              hintText: "********",
+              isPassword: true,
+              obscureText: true,
+              title: 'Password',
+              controller: _passwordController,
+              myValidator: (text) => null,
+            ),
+            const SizedBox(height: 30),
+            MaterialButtonWidget(
+              onPressed: _submitForm,
+              title: const Text('Sign Up'),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Already have an account?',
+                    style: TextStyle(fontSize: 18)),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(
+                        context, LoginScreen.routeName);
                   },
-
-                  // onPressed: () {
-                  //   Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(builder: (context) => NavBar()),
-                  //     );
-
-                  // },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.3,
-                        vertical: MediaQuery.of(context).size.height * 0.01),
-                  ),
-                  child: const Text(
-                    'Sign Up',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
+                  child: const Text('Log in',
+                      style: TextStyle(color: Colors.red, fontSize: 18)),
                 ),
-              ),
-
-              SizedBox(height: MediaQuery.of(context).size.height * 0.08),
-              const Center(
-                child: Text(
-                  'Or sign up with social account',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-              //SizedBox(height: 10),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // IconButton(
-                  //   icon: Image.asset('assets/Google.png'),
-                  //   iconSize: 40,
-                  //   onPressed: () {},
-                  // ),
-                  // IconButton(
-                  //   icon: Image.asset('assets/images/Facebook.png'),
-                  //   iconSize: 10,
-                  //   onPressed: () {},
-                  // ),
-                ],
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         ),
       ),
     );

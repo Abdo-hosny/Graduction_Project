@@ -355,7 +355,9 @@ class _WomenProductsState extends State<WomenProducts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: SafeArea(
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

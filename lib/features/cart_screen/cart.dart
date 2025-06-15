@@ -3,7 +3,9 @@ import 'package:flutter_application_14/features/cart_screen/widgets/appbar_widge
 import 'package:flutter_application_14/features/cart_screen/widgets/check_out_button.dart';
 import 'package:flutter_application_14/features/cart_screen/widgets/poromo_code.dart';
 import 'package:flutter_application_14/features/cart_screen/widgets/total_amount.dart';
+import 'package:provider/provider.dart';
 import '../../core/models/cart-item.dart';
+import '../../provider/provider.dart';
 import '../payment_screen/payment_screen.dart';
 import 'widgets/cart_item_card.dart';
 
@@ -15,29 +17,7 @@ class MyBagScreen extends StatefulWidget {
 }
 
 class _MyBagScreenState extends State<MyBagScreen> {
-  final List<CartItem> cartItems = [
-    CartItem(
-      image: 'assets/images/Pullover.jpeg',
-      title: 'Pullover',
-      color: 'Black',
-      size: 'L',
-      price: 51,
-    ),
-    CartItem(
-      image: 'assets/images/Pullover.jpeg',
-      title: 'T-Shirt',
-      color: 'Gray',
-      size: 'L',
-      price: 30,
-    ),
-    CartItem(
-      image: 'assets/images/Pullover.jpeg',
-      title: 'Sport Dress',
-      color: 'Black',
-      size: 'M',
-      price: 43,
-    ),
-  ];
+  final List<CartItem> cartItems = [];
 
   int get totalAmount => cartItems.fold(0, (sum, item) => sum + item.itemTotal);
 
@@ -57,6 +37,7 @@ class _MyBagScreenState extends State<MyBagScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<ProviderScreen>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(),
@@ -66,9 +47,9 @@ class _MyBagScreenState extends State<MyBagScreen> {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: cartItems.length,
+                itemCount: provider.cartItems.length,
                 itemBuilder: (context, index) => CartItemCard(
-                  item: cartItems[index],
+                  item: provider.cartItems[index],
                   onIncrease: () => increaseQuantity(index),
                   onDecrease: () => decreaseQuantity(index),
                 ),

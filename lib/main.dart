@@ -59,17 +59,32 @@
 // }
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_14/features/product_details/product_details.dart' show ProductDetails;
+import 'package:flutter_application_14/features/home_screen/product_details.dart' show ProductDetails;
+import 'package:flutter_application_14/provider/provider.dart';
+import 'package:provider/provider.dart';
+import 'features/auth/pages/login_Screen.dart';
 import 'features/home_screen/home_bage.dart';
+import 'features/model_ai/model_Screen.dart';
 import 'features/my_bag_screen.dart';
 import 'features/nav_bar.dart';
+import 'features/splash/splash_screen.dart';
+import 'features/test.dart';
 import 'features/womens_tops_screen.dart';
 import 'features/auth/pages/Sign_Up _screen.dart';
 import 'features/cancelled_order.dart';
-import 'features/profile_page.dart';
+import 'features/profile/profile_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp( MultiProvider(
+      providers: [
+
+        ChangeNotifierProvider<ProviderScreen>(
+          create: (_) => ProviderScreen(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -79,18 +94,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: SignUpScreen.routeName,
+      initialRoute: SplashScreen.routeName,
       routes: {
-
+    SplashScreen.routeName: (context) => const SplashScreen(),
+        Test.routeName: (context) => const Test(),
         SignUpScreen.routeName: (context) => const SignUpScreen(),
+        LoginScreen.routeName: (context) => const LoginScreen(),
         HomeBage.routeName: (context) => const HomeBage(),
         NavBar.routeName: (context) => const NavBar(),
-         ProductDetails.routeName: (context) => const ProductDetails(),
+        ModelScreen.touteNAme: (context) =>  ModelScreen(),
+
 
         ProfilePage.routeName: (context) => const ProfilePage(),
         CancelledOrderScreen.routeName: (context) =>
         const CancelledOrderScreen(),
-        MyBagScreen.routeName: (context) => MyBagScreen(),
+        MyBagScreen.routeName: (context) => const MyBagScreen(),
         WomenProducts.routeName: (context) => const WomenProducts(),
       },
       theme: ThemeData(

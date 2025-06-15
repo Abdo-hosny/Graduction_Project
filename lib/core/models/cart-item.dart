@@ -3,7 +3,7 @@ class CartItem {
   final String title;
   final String color;
   final String size;
-  final int price;
+  final String price; // String type
   int quantity;
 
   CartItem({
@@ -16,5 +16,11 @@ class CartItem {
   });
 
   // Helper method to calculate item total
-  int get itemTotal => price * quantity;
+  int get itemTotal {
+    final parsedPrice = int.tryParse(price);
+    if (parsedPrice != null) {
+      return parsedPrice * quantity;
+    }
+    return 0;
+  }
 }

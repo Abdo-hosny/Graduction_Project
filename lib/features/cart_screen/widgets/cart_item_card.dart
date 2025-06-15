@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../APi/const/api_constants.dart';
 import '../../../core/models/cart-item.dart';
 
 class CartItemCard extends StatelessWidget {
@@ -50,11 +51,13 @@ class CartItemCard extends StatelessWidget {
   Widget _buildItemImage() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: Image.asset(
-        item.image,
+
+      child:  Image.network(
+        ApiConstants.getFullImageUrl(item.image ?? ""),
         width: 100,
         height: 100,
-        fit: BoxFit.cover,
+        fit: BoxFit.fill,
+        errorBuilder: (_, __, ___) => const Icon(Icons.broken_image),
       ),
     );
   }
@@ -74,8 +77,7 @@ class CartItemCard extends StatelessWidget {
   }
 
   Widget _buildColorSizeText() {
-    return Text(
-      'Color: ${item.color}   Size: ${item.size}',
+    return Text('Color: ${item.color}  Size: ${item.size}',
       style: const TextStyle(color: Colors.grey),
     );
   }
@@ -90,7 +92,7 @@ class CartItemCard extends StatelessWidget {
         _buildQuantityButton(Icons.add, onIncrease),
         const Spacer(),
         Text(
-          '\$${item.itemTotal}',
+          '\$${item.price}',
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ],
