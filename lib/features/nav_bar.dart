@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_14/features/home_screen/product_details.dart' show ProductDetails;
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
-import 'profile_page.dart';
-import 'home_bage.dart';
-import 'my_bag.dart';
+import 'cart_screen/cart.dart';
+import 'chatbot/chat_bot.dart';
+import 'model_ai/model_Screen.dart';
+import 'profile/profile_page.dart';
+import 'home_screen/home_bage.dart';
+import 'dag_screen/my_bag.dart';
 
 class NavBar extends StatefulWidget {
   static const String routeName = 'navBar';
@@ -19,10 +23,10 @@ class _NavBarState extends State<NavBar> {
     return [
       const HomeBage(), // Screen 1
       const MyBag(),
-      // Screen 2
-      Container(), // Screen 3
-      Container(),
+      const MyBagScreen(), // Screen 3
+      ModelScreen(),
       const ProfilePage(), // Screen 4
+
       // Screen 5
     ];
   }
@@ -59,6 +63,7 @@ class _NavBarState extends State<NavBar> {
         activeColorPrimary: CupertinoColors.activeBlue,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
+
     ];
   }
 

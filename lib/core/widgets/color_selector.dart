@@ -22,7 +22,7 @@ void showColorSelector(
               children: [
                 const Center(
                   child: Text(
-                    "Select Color",
+                    'Select Color',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -52,22 +52,6 @@ void showColorSelector(
                   ],
                 ),
                 const Spacer(),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                    ),
-                    child: const Text(
-                      'Add To Cart',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                ),
               ],
             ),
           );

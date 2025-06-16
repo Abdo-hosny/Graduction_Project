@@ -7,6 +7,7 @@ import 'widget/row_payment.dart';
 import 'widget/row_text_widget.dart';
 
 class PaymentScreen extends StatelessWidget {
+  static const String routeName="pay_ment";
   final int totalAmount;
   const PaymentScreen({super.key, required this.totalAmount});
 
@@ -14,7 +15,8 @@ class PaymentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Shipping address"),
+
+        title: const Text("Shipping address"),
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
       ),

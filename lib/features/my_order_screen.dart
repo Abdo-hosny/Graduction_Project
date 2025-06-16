@@ -270,13 +270,10 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         elevation: 0,
         backgroundColor: Colors.transparent,
-        iconTheme: const IconThemeData(color: Colors.black),
-        actions: const [
-          Icon(Icons.search),
-          SizedBox(width: 16),
-        ],
+
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -11,8 +11,8 @@ class ColorOption extends StatelessWidget {
     this.selectedColor,
     this.onColorSelected,
     this.setModalState, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   Color getColor(String colorName) {
     switch (colorName) {
@@ -33,6 +33,7 @@ class ColorOption extends StatelessWidget {
       onTap: () {
         setModalState(() {
           onColorSelected(color);
+          Navigator.pop(context);
         });
       },
       child: Container(

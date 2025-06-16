@@ -208,12 +208,13 @@
 
 import 'package:flutter/material.dart';
 
-import 'filter_Screen.dart';
+import '../product_item.dart';
+import 'dag_screen/widget/filter_Screen.dart';
 
 class WomenProducts extends StatefulWidget {
   static const String routeName = 'womenProducts';
-  const WomenProducts({super.key});
-
+  const WomenProducts({super.key, required this.item,});
+  final ProductItem item;
   @override
   State<WomenProducts> createState() => _WomenProductsState();
 }
@@ -222,6 +223,8 @@ class _WomenProductsState extends State<WomenProducts> {
   String selectedSortOption = 'Price: lowest to high';
   String selectedCategory = "T-shirts";
 
+
+  _WomenProductsState();
   void _showSortOptions() {
     showModalBottomSheet(
       context: context,
@@ -276,51 +279,47 @@ class _WomenProductsState extends State<WomenProducts> {
   List<ProductItem> _getProductsForCategory(String category) {
     switch (category) {
       case "T-shirts":
-        return const [
+        return  [
           ProductItem(
-            name: "T-shirt",
-            brand: "LOST Ink",
-            price: "12\$",
-            imagePath:
-                "https://www.fairindigo.com/cdn/shop/files/BG_OF_04750_Tomato_Cream_SS25_0981.jpg?v=1741368255&width=600",
-            rating: 5,
-            reviews: 10,
+            name: widget.item.name,
+            brand: widget.item.brand,
+            price: "${widget.item.price}\$",
+            imagePath:widget.item.imagePath,
+            rating:widget.item.rating,
+            reviews: widget.item.reviews,
           ),
         ];
       case "Crop tops":
-        return const [
+        return  [
           ProductItem(
-            name: "Crop Top",
-            brand: "Zara",
-            price: "25\$",
-            imagePath:
-                "https://images.unsplash.com/photo-1503342394128-c104d54dba01?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y3JvcCUyMHRvcHxlbnwwfHwwfHx8MA%3D%3D",
-            rating: 4,
-            reviews: 5,
+            name: widget.item.name,
+            brand: widget.item.brand,
+            price: "${widget.item.price}\$",
+            imagePath:widget.item.imagePath,
+            rating:widget.item.rating,
+            reviews: widget.item.reviews,
           ),
         ];
       case "Sleeveless":
-        return const [
+        return  [
           ProductItem(
-            name: "Sleeveless Top",
-            brand: "H&M",
-            price: "18\$",
-            imagePath:
-                "https://carinawear.com/cdn/shop/products/cotton-sleeveless-tank-top-carina--1-31107360358640.jpg?v=1713446840",
-            rating: 3,
-            reviews: 2,
+            name: widget.item.name,
+            brand: widget.item.brand,
+            price: "${widget.item.price}\$",
+            imagePath:widget.item.imagePath,
+            rating:widget.item.rating,
+            reviews: widget.item.reviews,
           ),
         ];
       case "Blouses":
-        return const [
+        return  [
           ProductItem(
-            name: "Blouse",
-            brand: "Dorothy Perkins",
-            price: "34\$",
-            imagePath:
-                "https://images.unsplash.com/photo-1595828204607-0d09afb58a71?w=500&auto=format&fit=crop&q=60",
-            rating: 0,
-            reviews: 0,
+            name: widget.item.name,
+            brand: widget.item.brand,
+            price: "${widget.item.price}\$",
+            imagePath:widget.item.imagePath,
+            rating:widget.item.rating,
+            reviews: widget.item.reviews,
           ),
         ];
       default:
@@ -355,21 +354,13 @@ class _WomenProductsState extends State<WomenProducts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: SafeArea(
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Icon(Icons.arrow_back),
-                  IconButton(icon: const Icon(Icons.search), onPressed: () {}),
-                ],
-              ),
-            ),
+
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
@@ -435,72 +426,3 @@ class _WomenProductsState extends State<WomenProducts> {
   }
 }
 
-class ProductItem extends StatelessWidget {
-  final String name, brand, price, imagePath;
-  final int rating, reviews;
-
-  const ProductItem({
-    super.key,
-    required this.name,
-    required this.brand,
-    required this.price,
-    required this.imagePath,
-    required this.rating,
-    required this.reviews,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(12),
-              bottomLeft: Radius.circular(12),
-            ),
-            child: Image.network(
-              imagePath,
-              width: 110,
-              height: 110,
-              fit: BoxFit.fill,
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(name,
-                      style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Text(brand, style: TextStyle(color: Colors.grey.shade600)),
-                  Row(
-                    children: [
-                      ...List.generate(
-                          5,
-                          (index) => Icon(
-                                Icons.star,
-                                size: 16,
-                                color: index < rating
-                                    ? Colors.amber
-                                    : Colors.grey.shade300,
-                              )),
-                      const SizedBox(width: 4),
-                      Text("($reviews)", style: const TextStyle(fontSize: 12)),
-                    ],
-                  ),
-                  Text(price,
-                      style: const TextStyle(fontWeight: FontWeight.bold)),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}

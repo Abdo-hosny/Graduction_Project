@@ -69,22 +69,7 @@ void showSizeSelector(
                   ],
                 ),
                 const Spacer(),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                    ),
-                    child: const Text(
-                      'Add To Cart',
-                      style: TextStyle(fontSize: 18, color: Colors.black),
-                    ),
-                  ),
-                ),
+
               ],
             ),
           );

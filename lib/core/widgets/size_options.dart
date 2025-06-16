@@ -11,8 +11,8 @@ class SizeOption extends StatelessWidget {
     this.selectedSize,
     this.onSizeSelected,
     this.setModalState, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +21,7 @@ class SizeOption extends StatelessWidget {
       onTap: () {
         setModalState(() {
           onSizeSelected(size);
+          Navigator.pop(context);
         });
       },
       child: Container(
