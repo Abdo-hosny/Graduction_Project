@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../APi/const/api_constants.dart';
 import '../../../core/models/cart-item.dart';
 
-class CartItemCard extends StatelessWidget {
+class CartItemCard extends StatefulWidget {
   final CartItem item;
   final VoidCallback onIncrease;
   final VoidCallback onDecrease;
@@ -14,6 +14,12 @@ class CartItemCard extends StatelessWidget {
     required this.onDecrease,
   });
 
+  @override
+  State<CartItemCard> createState() => _CartItemCardState();
+}
+
+class _CartItemCardState extends State<CartItemCard> {
+  var itemCount=1;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -53,7 +59,7 @@ class CartItemCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(8),
 
       child:  Image.network(
-        ApiConstants.getFullImageUrl(item.image ?? ""),
+        ApiConstants.getFullImageUrl(widget.item.image ?? ""),
         width: 100,
         height: 100,
         fit: BoxFit.fill,
@@ -67,7 +73,7 @@ class CartItemCard extends StatelessWidget {
       children: [
         Expanded(
           child: Text(
-            item.title,
+            widget.item.title,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
@@ -77,23 +83,40 @@ class CartItemCard extends StatelessWidget {
   }
 
   Widget _buildColorSizeText() {
-    return Text('Color: ${item.color}  Size: ${item.size}',
+    return Text('Color: ${widget.item.color}  Size: ${widget.item.size}',
       style: const TextStyle(color: Colors.grey),
     );
   }
 
   Widget _buildQuantityControls() {
+
     return Row(
       children: [
-        _buildQuantityButton(Icons.remove, onDecrease),
+        _buildQuantityButton(Icons.remove, (){
+          if(itemCount>1)
+          itemCount--;
+          setState(() {
+
+          });
+
+        }),
         const SizedBox(width: 12),
-        Text('${item.quantity}', style: const TextStyle(fontSize: 16)),
+        Text('${itemCount}', style: const TextStyle(fontSize: 16)),
         const SizedBox(width: 12),
-        _buildQuantityButton(Icons.add, onIncrease),
+        _buildQuantityButton(Icons.add, (){
+
+          print(itemCount);
+          itemCount++;
+          setState(() {
+
+          });
+        }),
         const Spacer(),
-        Text(
-          '\$${item.price}',
-          style: const TextStyle(fontWeight: FontWeight.bold),
+        Expanded(
+          child: Text(
+            '\$${widget.item.price*1.toInt()}',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
       ],
     );

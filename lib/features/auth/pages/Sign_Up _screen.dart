@@ -51,7 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     signUpUser(user).then((response) {
       // مثال: لو عندك response.message أو أي شرط بسيط
-      if (response.message == 'Account registration successful!') {
+      if (response?.message == 'Account registration successful!') {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text("Success"),
@@ -69,7 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(response.message),
+            content: Text(response.message??""),
             backgroundColor: Colors.red,
           ),
         );

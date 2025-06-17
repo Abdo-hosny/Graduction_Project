@@ -79,7 +79,102 @@ class _ProductDetailsState extends State<ProductDetails> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(height: 16),
+                    Text(
+                      widget.product.name ?? '',
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 16),
                     Row(
+                      children: [
+                        const Text(
+                          'H&M',
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                        const Spacer(),
+                        Text(
+                          '${widget.product.price} \$' ?? '',
+                          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 8),
+                    Text(
+                      'Size : ${widget.product.size}' ?? '',
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Color : ${widget.product.color}' ?? '',
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Brand : ${widget.product.brand}' ?? '',
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+
+                    const SizedBox(height: 8),
+                    Text(
+                      widget.product.description ?? "",
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    // ListTile(
+                    //   title: const Text(
+                    //     "Item Details",
+                    //     style: TextStyle(
+                    //       color: Colors.blue,
+                    //       fontSize: 18,
+                    //       fontWeight: FontWeight.bold,
+                    //     ),
+                    //   ),
+                    //   onTap: () {
+                    //     Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //         builder: (context) => const ReviewAndRating(),
+                    //       ),
+                    //     );
+                    //   },
+                    //   trailing: const Icon(Icons.arrow_right, color: Colors.blue, size: 30),
+                    // ),
+                    const SizedBox(height: 16),
+                    CustomButton(
+                      width: double.infinity,
+                      txt: "Add To Cart",
+                      onPress: () {
+                        final cartItem = CartItem(
+                          //ApiConstants.getFullImageUrl(widget.product.image ?? "assets/images/shimmer2.jpg")
+                          image: widget.product.image ??'',
+                          title: widget.product.name ?? '',
+                          color: selectedColor,
+                          size: selectedSize ?? '',
+                          price: (widget.product.price ?? 0).toString(),
+                          quantity: 1,
+                        );
+                        provider.addItem(cartItem);
+                        Navigator.pop(context, cartItem); // ترجع العنصر المحدد
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+  }
+}
+
+
+/*
+
+
+ Row(
                       children: [
                         Expanded(
                           child: GestureDetector(
@@ -110,86 +205,4 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        const Text(
-                          'H&M',
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                        const Spacer(),
-                        Text(
-                          widget.product.price ?? '',
-                          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      widget.product.name ?? '',
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      widget.product.size ?? '',
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: List.generate(
-                        int.tryParse('${widget.product.reviews}') ?? 3,
-                            (index) => const Icon(Icons.star, color: Colors.amber, size: 20),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      widget.product.description ?? "",
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    ListTile(
-                      title: const Text(
-                        "Item Details",
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ReviewAndRating(),
-                          ),
-                        );
-                      },
-                      trailing: const Icon(Icons.arrow_right, color: Colors.blue, size: 30),
-                    ),
-                    const SizedBox(height: 16),
-                    CustomButton(
-                      width: double.infinity,
-                      txt: "Add To Cart",
-                      onPress: () {
-                        final cartItem = CartItem(
-                          //ApiConstants.getFullImageUrl(widget.product.image ?? "assets/images/shimmer2.jpg")
-                          image: widget.product.image ??'',
-                          title: widget.product.name ?? '',
-                          color: selectedColor,
-                          size: selectedSize ?? '',
-                          price: (widget.product.price ?? 0).toString(),
-                          quantity: 1,
-                        );
-                        provider.addItem(cartItem);
-                        Navigator.pop(context, cartItem); // ترجع العنصر المحدد
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-
-  }
-}
+ */

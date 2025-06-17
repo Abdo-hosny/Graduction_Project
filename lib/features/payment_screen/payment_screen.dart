@@ -15,6 +15,7 @@ class PaymentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
         title: const Text("Shipping address"),
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,

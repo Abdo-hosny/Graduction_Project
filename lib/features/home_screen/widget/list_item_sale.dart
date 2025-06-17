@@ -4,6 +4,7 @@ import '../../../APi/const/api_constants.dart';
 class ListItemSales extends StatelessWidget {
   final void Function()? onPressed;
   final String imageUrl;
+  final bool? showButton;
   final String? type;
   final String name;
   final String price;
@@ -11,6 +12,7 @@ class ListItemSales extends StatelessWidget {
   final double fontSizeText;
   final double  height;
   const ListItemSales({
+
     super.key,
     this.onPressed,
     required this.imageUrl,
@@ -20,12 +22,13 @@ class ListItemSales extends StatelessWidget {
     this.height =280,
     required this.name,
     required this.price,
+    this.showButton=false
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height,
+      height:height,
       child: InkWell(
         onTap: onPressed,
         borderRadius: BorderRadius.circular(12.0),
@@ -94,6 +97,10 @@ class ListItemSales extends StatelessWidget {
                     fontSize: fontSizePrice,
                     color: Colors.black),
               ),
+             if(showButton==true)
+               ElevatedButton(
+                   onPressed: onPressed, child: const Text(
+                   "Try on",style: TextStyle(color: Colors.blue,fontSize: 18,fontWeight: FontWeight.bold),))
             ],
           ),
         ),

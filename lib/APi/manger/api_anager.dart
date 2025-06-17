@@ -1,14 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
-
-import '../../features/auth/logic/SignUpResponse.dart';
 import '../../features/auth/logic/email.dart';
+import '../../features/auth/logic/sign_up_response.dart';
 import '../const/api_constants.dart';
 import '../model/AllProducts.dart';
-
-
+import '../model/ProductModel.dart';
 
 class ApiManager {
 
@@ -32,47 +28,25 @@ class ApiManager {
       throw Exception("حدث خطأ أثناء الاتصال بالسيرفر: $e");
     }
   }
-
-
-
 }
-
-// Future<SignUpResponse> signInUser(SignInModelRequest signInUser) async {
-//   try {
-//     final response = await http.post(
-//       Uri.parse('https://monsef74.pythonanywhere.com/api/userinfo/'),
-//       headers: {'Content-Type': 'application/json'},
-//       body: jsonEncode(signInUser.toJson()),
-//     );
-//     return SignUpResponse.fromJson(jsonDecode(response.body));
-//   } on Exception catch (e) {
-//     throw Exception(e.toString());
-//   }
-// }
-
-
-Future<SignUpResponse> signUpUser(RequestSignUpModel user) async {
-  final url = Uri.parse('http://monsef74.pythonanywhere.com/api/register/');
-  final response = await http.post(
-    url,
-    headers: {'Content-Type': 'application/json'},
-    body: jsonEncode(user.toJson()),
-  );
-
-  print('Status code: ${response.statusCode}');
-  print('Response body: ${response.body}');
-
-    final Map<String, dynamic> responseData = jsonDecode(response.body);
-    return SignUpResponse.fromJson(responseData);
-
+Future<SignUpResponse> signUpUser(RequestSignUpModel requestModle) async {
+  try {
+    final response = await http.post(
+      Uri.parse('http://identityhost.runasp.net/api/Auth/signup'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(requestModle.toJson()),
+    );
+    return SignUpResponse.fromJson(jsonDecode(response.body));
+  } on Exception catch (e) {
+    throw Exception(e.toString());
+  }
 }
-
-
 Future<SignUpResponse> signInUser(SignInModelRequest signInUser) async {
   try {
-    final response = await http.get(
-      Uri.parse('https://monsef74.pythonanywhere.com/api/userinfo/'),
+    final response = await http.post(
+      Uri.parse('http://identityhost.runasp.net/api/Auth/signin'),
       headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(signInUser.toJson()),
     );
     return SignUpResponse.fromJson(jsonDecode(response.body));
   } on Exception catch (e) {
@@ -80,6 +54,19 @@ Future<SignUpResponse> signInUser(SignInModelRequest signInUser) async {
   }
 }
 
+Future<List<ProductModel>> fetchProducts() async {
+  final response = await http.get(
+    Uri.parse('https://monsef74.pythonanywhere.com/api/products/?minPrice=150'),
+  );
+
+  if (response.statusCode == 200) {
+    final data = json.decode(response.body);
+    final List products = data['products'];
+    return products.map((json) => ProductModel.fromJson(json)).toList();
+  } else {
+    throw Exception('Failed to load products');
+  }
+}
 
 /*
 

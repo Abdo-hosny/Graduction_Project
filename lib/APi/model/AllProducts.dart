@@ -134,6 +134,7 @@ class Product {
    int? id;
    List<Review>? reviews;
    String? name;
+   String? color;
    String? description;
    String? price;
    String? brand;
@@ -149,6 +150,7 @@ class Product {
      this.name,
      this.description,
      this.price,
+    this.color,
      this.brand,
      this.category,
      this.size,
@@ -164,6 +166,7 @@ class Product {
       name: json['name'],
       description: json['description'],
       price: json['price'],
+      color: json['color'],
       brand: json['brand'],
       category: json['category'],
       size: json['size'],

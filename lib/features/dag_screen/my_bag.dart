@@ -292,11 +292,19 @@
 // }
 //
 
+
+
+
+
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_14/features/home_screen/product_details.dart';
+import 'package:flutter_application_14/product_item.dart';
 import '../../APi/const/api_constants.dart';
 import '../../APi/manger/api_anager.dart';
 import '../../APi/model/AllProducts.dart';
+import '../womens_tops_screen.dart';
 
 class MyBag extends StatefulWidget {
   const MyBag({super.key});
@@ -448,12 +456,14 @@ class _MyBagState extends State<MyBag> {
             return CategoryItem(
               title: item.name ?? '',
               image: item.image ?? '',
+              price: double.parse(item.price.toString()),
               category: category,
               onTap: () {
+                var item2=ProductItem(name: item.name??"" , brand: item.brand??"", price: item.price??"", imagePath: ApiConstants.getFullImageUrl(item.image??""), rating: 0, reviews: item.reviews!.length??1);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => ProductDetails(product: item),
+                    builder: (_) => WomenProducts(item: item2,),
                   ),
                 );
               },
@@ -498,12 +508,14 @@ class CategoryItem extends StatelessWidget {
   final String image;
   final String category;
   final VoidCallback? onTap;
-
+  final double price;
   const CategoryItem({
     super.key,
     required this.title,
     required this.image,
     required this.category,
+    required this.price,
+    
     this.onTap,
   });
 
@@ -523,7 +535,22 @@ class CategoryItem extends StatelessWidget {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Text(title, style: const TextStyle(fontSize: 16)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: const TextStyle(fontSize: 16,)),
+                    Row(
+                      children: [
+                        Text(price.toString(), style: const TextStyle(fontSize: 16, decoration: TextDecoration.lineThrough,)),
+const Spacer(),
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(color: Colors.red.withValues(alpha: 0.5),borderRadius: BorderRadius.circular(12)),
+                            child: Text('\$${(price*50/100).toString()}', style: const TextStyle(fontSize:16))),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             Container(
@@ -547,4 +574,7 @@ class CategoryItem extends StatelessWidget {
     );
   }
 }
+
+
+
 

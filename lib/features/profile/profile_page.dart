@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_14/core/widgets/custom_list_tile.dart';
+import '../share_pre.dart';
 import 'Setting_Screen.dart';
 import '../auth/widget/promoCode.dart';
 import '../my_order_screen.dart';
@@ -42,27 +43,28 @@ class ProfilePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 8),
-            const Row(
+            Row(
               children: [
                 CircleAvatar(
-                  radius: 40,
-                  // backgroundImage: AssetImage('assets/images (2).jpg'),
+                  radius: 40,                  backgroundColor: Colors.grey[200],
+                  child: Icon(Icons.person,size: 50,),
                 ),
-                SizedBox(width: 20),
+                SizedBox(width: 30),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Mahmoud Elghanam',
-                      style: TextStyle(
-                        fontSize: 20,
+                    Text( SharedPrefsService.getString("name")??"name",
+                      style: const TextStyle(
+                        fontSize: 30,
+                        color: Colors.blue,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+
                     FittedBox(
                       child: Text(
-                        'Mahmoud Elghanam@gmail.com',
-                        style: TextStyle(
+                        SharedPrefsService.getString("email")??"email",
+                        style: const TextStyle(
                           fontSize: 13,
                           color: Colors.black26,
                           fontWeight: FontWeight.bold,
@@ -72,6 +74,7 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ],
                 ),
+
               ],
             ),
             const SizedBox(height: 40),
@@ -101,11 +104,11 @@ class ProfilePage extends StatelessWidget {
             ),
             const SizedBox(height: 15),
             CustomListTile(
-              title: 'Promocodes',
-              subTitle: 'You have special promocodes',
+              title: 'Promo codes',
+              subTitle: 'You have special promo codes',
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => PromoCode(),
+                  builder: (context) => const PromoCode(),
                 ));
               },
             ),
